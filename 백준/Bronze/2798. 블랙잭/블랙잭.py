@@ -1,18 +1,23 @@
 import sys
 input = sys.stdin.readline
 
-N, M = map(int, input().split())
+n, m = map(int, input().split())
+cards = list(map(int, input().split()))
 
-card_list = list(map(int, input().split()))
-
-anw = []
-
-for i in range(N):
-    for j in range(i + 1, N):
-        for z in range(j + 1, N):
-            if card_list[i] + card_list[j] + card_list[z] > M:
+def blackjack(N, M, array):
+    summation = 0
+    for i in range(N):
+        if array[i] > M:
+            continue
+        for j in range(i+1, N):
+            if array[i]+array[j] > M:
                 continue
-            else:
-                anw.append(card_list[i] + card_list[j] + card_list[z])
+            for k in range(j+1, N):
+                if array[i] + array[j] + array[k] > M:
+                    continue
+                newSum = array[i]+array[j]+array[k]
+                if ((M - summation) > (M - newSum)):
+                    summation = newSum
+    print(summation)
 
-print(max(anw))
+blackjack(n, m, cards)
